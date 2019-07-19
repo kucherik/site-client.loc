@@ -52,11 +52,11 @@ class Users extends \yii\db\ActiveRecord
     }
 
 
-    public static function UpdateUsers($datapage, $i)
+    public static function UpdateUsers($datapage, $i, $user_count )
     {
-        $user_count = Users::find()->count();
+
         if ($i * 20 <= $user_count) { // при условии, что строк таблице не становится меньше
-            $user_for_delete = Users::find()->offset(($i - 1) * 20)->limit(20)->all();
+            $user_for_delete = Users::find()->limit(20)->all();
             foreach ($user_for_delete as $user) try {
                 $user->delete();
             } catch (StaleObjectException $e) {

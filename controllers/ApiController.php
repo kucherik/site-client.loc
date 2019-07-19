@@ -26,12 +26,13 @@ class ApiController extends Controller
         $data = json_decode($data, true);
 
         $pageCount = $data['_meta']["pageCount"];
+        $user_count = Users::find()->count();
 
         for ( $i = 1; $i < $pageCount+1; $i++){
 
             $url = 'http://site-server.loc/api/users/index?page=' . $i;
             $datapage = json_decode(file_get_contents($url, false, $context), true);
-            Users::UpdateUsers($datapage, $i);
+            Users::UpdateUsers($datapage, $i, $user_count);
         }
 
         return 'updated';
