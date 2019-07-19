@@ -63,6 +63,14 @@ class Users extends \yii\db\ActiveRecord
             } catch (\Throwable $e) {
             }
         }
+        elseif( ($i * 20 - $user_count) < 20){
+            $user_for_delete = Users::find()->limit($user_count % 20)->all();
+            foreach ($user_for_delete as $user) try {
+                $user->delete();
+            } catch (StaleObjectException $e) {
+            } catch (\Throwable $e) {
+            }
+        }
 
         foreach ($datapage['items'] as $item) {
             $values = [
